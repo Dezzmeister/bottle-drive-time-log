@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
             case CheckInActivity.CHECKIN_NEW_REQUEST:
                 if (aResultCode == RESULT_OK) {
                     final Scout scout = (Scout) aData.getSerializableExtra("scout");
-                    tryAdd(scout);
+                    if (!tryAdd(scout)) {
+                        final Toast toast = Toast.makeText(getApplicationContext(), "Scout already checked in!", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
         }
     }
