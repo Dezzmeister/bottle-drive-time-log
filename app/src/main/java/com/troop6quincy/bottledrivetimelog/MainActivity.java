@@ -1,6 +1,7 @@
 package com.troop6quincy.bottledrivetimelog;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ import java.util.List;
  *
  * @author Joe Desmond
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DeleteScoutDialogListener {
     private ListView scoutListView;
     private final List<Scout> listItems = new ArrayList<Scout>();
     private ArrayAdapter<Scout> adapter;
@@ -52,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onDialogPositiveClick(final DialogFragment dialog) {
+        final Bundle arguments = dialog.getArguments();
+        final Scout scout = (Scout) arguments.get("scout");
+        removeItem(scout);
+    }
+
+    @Override
+    public void onDialogNegativeClick(final DialogFragment dialog) {
+
+    }
+
+    @Override
     public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
 
@@ -69,14 +83,24 @@ public class MainActivity extends AppCompatActivity {
                 checkOut(selectedScout);
                 return true;
             case R.id.delete_scout:
+                showDeleteScoutDialog(selectedScout);
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
-    private void checkOut(final Scout scout) {
+    private void showDeleteScoutDialog(final Scout scout) {
+        final DialogFragment dialog = new DeleteScoutDialogFragment();
+        final Bundle bundle = new Bundle();
+        bundle.putSerializable("scout", scout);
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager(), "DeleteScoutDialogFragment");
+    }
 
+    private void checkOut(final Scout scout) {
+        scout.setCheckOut(new Date());
+        removeItem(scout);
     }
 
     @Override
@@ -118,6 +142,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private final void addItem(final Scout item) {
         listItems.add(item);
+        adapter.notifyDataSetChanged();
+    }
+
+    private final void removeItem(final Scout item) {
+        listItems.remove(item);
         adapter.notifyDataSetChanged();
     }
 
