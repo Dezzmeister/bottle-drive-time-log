@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Bottle Drive Time Log</string>
     <string name="action_settings">Settings</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="dialog_delete_scout">Are you sure?</string>
     <string-array name="am_pm">
         <item>AM</item>
         <item>PM</item>

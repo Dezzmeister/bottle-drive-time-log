@@ -7,8 +7,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -37,12 +41,42 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<Scout>(getApplicationContext(), android.R.layout.simple_list_item_1, listItems);
         scoutListView.setAdapter(adapter);
 
+        registerForContextMenu(scoutListView);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(view -> {
             final Intent intent = new Intent(view.getContext(), CheckInActivity.class);
             ((Activity) view.getContext()).startActivityForResult(intent, CheckInActivity.CHECKIN_NEW_REQUEST);
         });
+    }
+
+    @Override
+    public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+
+        final MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_scoutlist, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(final MenuItem item) {
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final Scout selectedScout = (Scout) scoutListView.getItemAtPosition(info.position);
+
+        switch (item.getItemId()) {
+            case R.id.checkout_scout:
+                checkOut(selectedScout);
+                return true;
+            case R.id.delete_scout:
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    private void checkOut(final Scout scout) {
+
     }
 
     @Override
@@ -56,11 +90,12 @@ public class MainActivity extends AppCompatActivity {
                         toast.show();
                     }
                 }
+                break;
         }
     }
 
     /**
-     * Attempts to add the Scout to the list, fails if the Scout is already in the list.
+     * Attempts to add a Scout to the list, fails if the Scout is already in the list.
      *
      * @param item Scout to add
      * @return true if the operation succeeded, false if not
