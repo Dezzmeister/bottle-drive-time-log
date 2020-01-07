@@ -16,7 +16,7 @@ public final class Scout implements Serializable {
 
     /**
      * Creates a Scout with the given name and check-in date. The check-out date is null until set
-     * by {@link Scout#setCheckOut(Date)}.
+     * by {@link Scout#checkOut(Date)}.
      *
      * @param _name first and last name, delimited by a space
      * @param _checkIn check-in date (seconds are ignored)
@@ -31,7 +31,7 @@ public final class Scout implements Serializable {
      *
      * @param _checkOut check-out date
      */
-    public void setCheckOut(final Date _checkOut) {
+    public void checkOut(final Date _checkOut) {
         checkOut = _checkOut;
     }
 

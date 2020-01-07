@@ -44,7 +44,7 @@ public class CheckInActivity extends AppCompatActivity {
     private final void submitAction(final View view) {
         final Scout scout = getCurrentScout();
         final Intent resultIntent = new Intent();
-        resultIntent.putExtra("scout", scout);
+        resultIntent.putExtra(getResources().getString(R.string.scout_obj_key), scout);
         setResult(RESULT_OK, resultIntent);
         finish();
     }

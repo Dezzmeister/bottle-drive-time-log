@@ -1,4 +1,4 @@
-package com.troop6quincy.bottledrivetimelog;
+package com.troop6quincy.bottledrivetimelog.deletescout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -6,6 +6,15 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.troop6quincy.bottledrivetimelog.R;
+
+/**
+ * Confirmation dialog box for removing a Scout from the list. Scout to be removed should be mapped
+ * to String key "scout" in a {@link Bundle}, and passed to the fragment
+ * with {@link #setArguments(Bundle)}.
+ *
+ * @author Joe Desmond
+ */
 public class DeleteScoutDialogFragment extends DialogFragment {
     private DeleteScoutDialogListener listener;
 

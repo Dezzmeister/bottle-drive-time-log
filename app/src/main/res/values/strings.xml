@@ -4,6 +4,7 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="dialog_delete_scout">Are you sure?</string>
+    <string name="scout_obj_key">scout</string>
     <string-array name="am_pm">
         <item>AM</item>
         <item>PM</item>

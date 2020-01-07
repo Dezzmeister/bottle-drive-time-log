@@ -1,4 +1,4 @@
-package com.troop6quincy.bottledrivetimelog;
+package com.troop6quincy.bottledrivetimelog.deletescout;
 
 import android.app.DialogFragment;
 
