@@ -10,7 +10,7 @@ import com.troop6quincy.bottledrivetimelog.R;
 
 /**
  * Confirmation dialog box for removing a Scout from the list. Scout to be removed should be mapped
- * to String key "scout" in a {@link Bundle}, and passed to the fragment
+ * to String key {@link R.string#scout_obj_key} in a {@link Bundle}, and passed to the fragment
  * with {@link #setArguments(Bundle)}.
  *
  * @author Joe Desmond

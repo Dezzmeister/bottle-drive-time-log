@@ -8,9 +8,18 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
+import com.troop6quincy.bottledrivetimelog.R;
+
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * Dialog for picking a check-out time for a Scout. Scout to be removed should be mapped
+ * to String key {@link R.string#scout_obj_key} in a {@link Bundle}, and passed to the fragment
+ * with {@link #setArguments(Bundle)}.
+ *
+ * @author Joe Desmond
+ */
 public class CheckOutDialogFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     private CheckOutDialogListener timeListener;
 

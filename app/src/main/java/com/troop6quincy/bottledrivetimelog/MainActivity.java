@@ -2,7 +2,6 @@ package com.troop6quincy.bottledrivetimelog;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,7 +25,6 @@ import com.troop6quincy.bottledrivetimelog.deletescout.DeleteScoutDialogListener
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
