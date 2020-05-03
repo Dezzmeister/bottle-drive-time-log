@@ -1,6 +1,11 @@
 package com.troop6quincy.bottledrivetimelog;
 
 import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
@@ -13,6 +18,7 @@ public final class Scout implements Serializable {
     public final String name;
     public final Date checkIn;
     public Date checkOut = null;
+    public int minutesCheckedIn = -1;
 
     /**
      * Creates a Scout with the given name and check-in date. The check-out date is null until set
@@ -27,12 +33,20 @@ public final class Scout implements Serializable {
     }
 
     /**
-     * Sets the check-out date of this Scout.
+     * Sets the check-out date of this Scout. Also calculates the number of minutes that the Scout
+     * was checked in, by converting the check-in and check-out dates to the number of milliseconds
+     * since the Unix Epoch, and taking the difference. These values are 64-bit long values, so there
+     * is little risk of the app breaking because of date issues.
      *
      * @param _checkOut check-out date
      */
     public void checkOut(final Date _checkOut) {
         checkOut = _checkOut;
+        final long checkInMillis = checkIn.getTime();
+        final long checkOutMillis = checkOut.getTime();
+
+        final long timeDiffMillis = Math.abs(checkOutMillis - checkInMillis);
+        minutesCheckedIn = (int)(timeDiffMillis / (60 * 1000));
     }
 
     /**

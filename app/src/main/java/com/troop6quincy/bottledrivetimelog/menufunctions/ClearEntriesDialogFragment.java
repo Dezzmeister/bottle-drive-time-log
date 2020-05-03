@@ -1,4 +1,4 @@
-package com.troop6quincy.bottledrivetimelog.deletescout;
+package com.troop6quincy.bottledrivetimelog.menufunctions;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,15 +7,9 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.troop6quincy.bottledrivetimelog.R;
+import com.troop6quincy.bottledrivetimelog.deletescout.DialogListener;
 
-/**
- * Confirmation dialog box for removing a Scout from the list. Scout to be removed should be mapped
- * to String key {@link R.string#scout_obj_key} in a {@link Bundle}, and passed to the fragment
- * with {@link #setArguments(Bundle)}.
- *
- * @author Joe Desmond
- */
-public class DeleteScoutDialogFragment extends DialogFragment {
+public class ClearEntriesDialogFragment extends DialogFragment {
     private DialogListener listener;
 
     @Override
@@ -27,8 +21,8 @@ public class DeleteScoutDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.dialog_delete_scout)
-                .setPositiveButton(R.string.delete, (dialog, id) -> listener.onDialogPositiveClick(this))
+        builder.setMessage(R.string.dialog_delete_all_scouts)
+                .setPositiveButton(R.string.delete_all_entries, (dialog, id) -> listener.onDialogPositiveClick(this))
                 .setNegativeButton(R.string.cancel, (dialog, id) -> listener.onDialogNegativeClick(this));
         return builder.create();
     }

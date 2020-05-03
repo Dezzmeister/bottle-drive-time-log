@@ -7,6 +7,8 @@ import android.widget.TimePicker;
  * Listener interface for a checkout dialog, with a time picker.
  *
  * @author Joe Desmond
+ * @since 1.0
+ * @version 1.0
  */
 public interface CheckOutDialogListener {
 
