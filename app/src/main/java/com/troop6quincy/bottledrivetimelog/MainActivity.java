@@ -3,12 +3,11 @@ package com.troop6quincy.bottledrivetimelog;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +19,10 @@ import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.troop6quincy.bottledrivetimelog.checkout.CheckOutDialogFragment;
 import com.troop6quincy.bottledrivetimelog.checkout.CheckOutDialogListener;
 import com.troop6quincy.bottledrivetimelog.deletescout.DeleteScoutDialogFragment;
@@ -33,12 +36,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -92,6 +92,13 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
         setSupportActionBar(toolbar);
 
         cleanExternalStorage();
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
 
         final File dir = getApplicationContext().getFilesDir();
         recordFile = new File(dir, SCOUT_RECORD_NAME);

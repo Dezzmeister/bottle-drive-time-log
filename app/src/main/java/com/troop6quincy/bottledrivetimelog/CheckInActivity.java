@@ -2,7 +2,6 @@ package com.troop6quincy.bottledrivetimelog;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +11,8 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Activity that is used to construct Scout objects, presents name and check-in time fields.

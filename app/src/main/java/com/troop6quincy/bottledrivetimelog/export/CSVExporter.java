@@ -39,6 +39,10 @@ public class CSVExporter {
 
         sb.append("Name,Check-in Time,Check-out Time,Total Hours");
 
+        if (totalMoney >= 0) {
+            sb.append(",Money Earned");
+        }
+
         if (items.size() != 0) {
             sb.append(ENDLINE);
         } else {
@@ -48,8 +52,6 @@ public class CSVExporter {
         final double[] moneyEarned;
 
         if (totalMoney >= 0) {
-            sb.append(",Money Earned");
-
             moneyEarned = new double[items.size()];
 
             // Calculate total minutes worked

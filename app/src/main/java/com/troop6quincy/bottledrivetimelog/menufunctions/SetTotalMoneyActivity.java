@@ -2,7 +2,6 @@ package com.troop6quincy.bottledrivetimelog.menufunctions;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -10,6 +9,8 @@ import android.widget.Toast;
 import com.blackcat.currencyedittext.CurrencyEditText;
 import com.troop6quincy.bottledrivetimelog.R;
 import com.troop6quincy.bottledrivetimelog.Scout;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Activity to set the total money earned.
