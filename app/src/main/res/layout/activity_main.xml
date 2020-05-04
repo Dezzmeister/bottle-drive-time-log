@@ -29,8 +29,9 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="false"
-        app:backgroundTint="@android:color/holo_blue_light"
+        android:scaleType="center"
+        app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add"/>
 
 </android.support.design.widget.CoordinatorLayout>

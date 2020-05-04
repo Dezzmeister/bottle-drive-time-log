@@ -2,10 +2,13 @@ package com.troop6quincy.bottledrivetimelog.export;
 
 import com.troop6quincy.bottledrivetimelog.Scout;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -13,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Exports Scout data to an excel workbook.
+ * Exports Scout data to an excel workbook. Supports both XLS (old) and XLSX (new) file formats.
  *
  * @author Joe Desmond
  * @version 1.0
@@ -65,10 +68,40 @@ public class ExcelExporter {
      * @param dateFormat format to use for date cells
      * @return an Excel workbook (XLSX) with the given data
      */
-    public static final XSSFWorkbook export(final List<Scout> items, final double totalMoney, final String dateFormat) {
+    public static final XSSFWorkbook exportXLSX(final List<Scout> items, final double totalMoney, final String dateFormat) {
         final XSSFWorkbook workbook = new XSSFWorkbook();
+        fillSpreadsheet(workbook, items, totalMoney, dateFormat);
+
+        return workbook;
+    }
+
+    /**
+     * Creates an Excel workbook in the XLS format with the given Scout information and
+     * total money earned. If the total money is negative, no money column will be added.
+     *
+     * @param items Scout data
+     * @param totalMoney total money earned, or -1
+     * @param dateFormat format to use for date cells
+     * @return an Excel workbook (XLS) with the given data
+     */
+    public static final HSSFWorkbook exportXLS(final List<Scout> items, final double totalMoney, final String dateFormat) {
+        final HSSFWorkbook workbook = new HSSFWorkbook();
+        fillSpreadsheet(workbook, items, totalMoney, dateFormat);
+
+        return workbook;
+    }
+
+    /**
+     * Fills an empty workbook with the given Scout data.
+     *
+     * @param workbook workbook
+     * @param items Scout data
+     * @param totalMoney total money earned, or -1 to exclude money column
+     * @param dateFormat format to use for date cells
+     */
+    private static final void fillSpreadsheet(Workbook workbook, final List<Scout> items, final double totalMoney, final String dateFormat) {
         final CreationHelper createHelper = workbook.getCreationHelper();
-        final XSSFSheet sheet = workbook.createSheet("Sheet 1");
+        final Sheet sheet = workbook.createSheet("Sheet 1");
 
         final Row titleRow = sheet.createRow(TITLE_ROW);
         final Cell scoutNameTitle = titleRow.createCell(NAME_COLUMN);
@@ -154,7 +187,5 @@ public class ExcelExporter {
                 }
             }
         }
-
-        return workbook;
     }
 }

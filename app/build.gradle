@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -35,7 +39,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    // Apache POI stuff
-    // implementation 'org.apache.poi:poi:3.1.7'
     implementation files('libs/poishadow/poishadow-all.jar')
+    implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
 }

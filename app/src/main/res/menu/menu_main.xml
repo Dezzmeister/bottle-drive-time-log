@@ -8,20 +8,25 @@
         android:title="@string/main_menu_export_excel"
         app:showAsAction="never" />
     <item
-        android:id="@+id/main_menu_export_text"
+        android:id="@+id/main_menu_export_excel_old"
         android:orderInCategory="200"
+        android:title="@string/main_menu_export_excel_old"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/main_menu_export_text"
+        android:orderInCategory="300"
         android:title="@string/main_menu_export_text"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/main_menu_set_money_earned"
-        android:orderInCategory="300"
+        android:orderInCategory="400"
         android:title="@string/main_menu_set_money_earned"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/main_menu_clear_entries"
-        android:orderInCategory="400"
+        android:orderInCategory="500"
         android:title="@string/main_menu_clear_entries"
         app:showAsAction="never"
         />

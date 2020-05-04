@@ -19,8 +19,6 @@ import java.util.Locale;
  * @author Joe Desmond
  */
 public class CheckInActivity extends AppCompatActivity {
-    public static final int CHECKIN_NEW_REQUEST = 1;
-
     private EditText nameInput;
     private TimePicker timeInput;
 

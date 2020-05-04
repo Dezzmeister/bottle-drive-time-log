@@ -27,6 +27,13 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
         </activity>
+        <activity
+            android:name=".menufunctions.SetTotalMoneyActivity"
+            android:label="Set Total Money Earned"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+
+        </activity>
         <provider
             android:name=".GenericFileProvider"
             android:authorities="${applicationId}.provider"
