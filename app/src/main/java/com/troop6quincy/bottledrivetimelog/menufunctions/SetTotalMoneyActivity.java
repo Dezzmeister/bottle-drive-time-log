@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.troop6quincy.bottledrivetimelog.R;
 import com.troop6quincy.bottledrivetimelog.Scout;
 
@@ -50,6 +52,10 @@ public class SetTotalMoneyActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(this::submitAction);
         cancelButton.setOnClickListener(this::cancelAction);
+
+        final AdView adView = findViewById(R.id.lowerBannerAd);
+        AdRequest request = new AdRequest.Builder().build();
+        adView.loadAd(request);
     }
 
     /**

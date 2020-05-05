@@ -27,6 +27,11 @@ public class SessionObject implements Serializable {
     public long totalMoney;
 
     /**
+     * True if dark theme is enabled
+     */
+    public boolean darkThemeEnabled = false;
+
+    /**
      * Creates a SessionObject with the given Scout entries and total money.
      *
      * @param _listItems checked-in and checked-out Scouts
@@ -36,6 +41,13 @@ public class SessionObject implements Serializable {
     public SessionObject(final LinkedList<Scout> _listItems, final long _totalMoney) {
         listItems = _listItems;
         totalMoney = _totalMoney;
+    }
+
+    /**
+     * Toggles dark theme. Changes {@link #darkThemeEnabled}.
+     */
+    public void toggleDarkTheme() {
+        darkThemeEnabled = !darkThemeEnabled;
     }
 
     /**

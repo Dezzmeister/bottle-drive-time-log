@@ -8,25 +8,75 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
  * Activity that is used to construct Scout objects, presents name and check-in time fields.
  *
  * @author Joe Desmond
+ * @since 1.0
+ * @version 1.0
  */
 public class CheckInActivity extends AppCompatActivity {
+    private SessionObject session;
     private EditText nameInput;
     private TimePicker timeInput;
+
+    /**
+     * Accepts a new session and updates the theme of the activity accordingly.
+     *
+     * @param _session new session
+     */
+    public void updateSession(final SessionObject _session) {
+        session = _session;
+
+        final ConstraintLayout mainLayout = findViewById(R.id.mainLayout);
+        final EditText nameText = findViewById(R.id.scoutName);
+        final TimePicker timePicker = findViewById(R.id.checkInTime);
+        final Button submitButton = findViewById(R.id.submitCheckIn);
+        final Button cancelButton = findViewById(R.id.cancelCheckIn);
+
+        if (session.darkThemeEnabled) {
+            mainLayout.setBackgroundColor(getResources().getColor(R.color.darkThemeBackground));
+
+            nameText.setBackgroundColor(getResources().getColor(R.color.darkThemeTextBoxBackground));
+            nameText.setTextColor(getResources().getColor(R.color.darkThemeText));
+            nameText.setHintTextColor(getResources().getColor(R.color.darkThemeHint));
+
+            timePicker.setBackgroundColor(getResources().getColor(R.color.darkThemeBackground));
+        } else {
+            mainLayout.setBackgroundColor(getResources().getColor(R.color.lightThemeBackground));
+
+            nameText.setBackgroundColor(getResources().getColor(R.color.lightThemeBackground));
+            nameText.setTextColor(getResources().getColor(R.color.lightThemeText));
+            nameText.setHintTextColor(getResources().getColor(R.color.lightThemeHint));
+
+            timePicker.setBackgroundColor(getResources().getColor(R.color.lightThemeBackground));
+        }
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkin);
+
+        Intent intent = getIntent();
+        final SessionObject sessionObject = (SessionObject) intent.getSerializableExtra(getResources().getString(R.string.session_object_key));
+        //updateSession(sessionObject);
+
+        if (sessionObject.darkThemeEnabled) {
+            setContentView(R.layout.activity_checkin_dark);
+        } else {
+            setContentView(R.layout.activity_checkin);
+        }
+
         nameInput = findViewById(R.id.scoutName);
         timeInput = findViewById(R.id.checkInTime);
 
@@ -35,6 +85,10 @@ public class CheckInActivity extends AppCompatActivity {
 
         submitButton.setOnClickListener(this::submitAction);
         cancelButton.setOnClickListener(this::cancelAction);
+
+        final AdView adView = findViewById(R.id.lowerBannerAd);
+        AdRequest request = new AdRequest.Builder().build();
+        adView.loadAd(request);
     }
 
     /**

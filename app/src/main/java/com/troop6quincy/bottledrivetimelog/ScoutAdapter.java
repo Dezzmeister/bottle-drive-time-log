@@ -37,6 +37,11 @@ public class ScoutAdapter extends ArrayAdapter<Scout> {
     private final List<Scout> items;
 
     /**
+     * True if this ScoutAdapter should use a dark theme (defaults to light theme)
+     */
+    private boolean darkTheme = false;
+
+    /**
      * Creates a ScoutAdapter with the given context, TextView id (unused), and list.
      *
      * @param _context context
@@ -48,6 +53,15 @@ public class ScoutAdapter extends ArrayAdapter<Scout> {
         context = _context;
         items = _items;
     }
+
+    /**
+     * Sets this ScoutAdapter to render list items with a dark theme or a light theme.
+     *
+     * @param _darkTheme <code>true</code> to use dark theme, <code>false</code> to use light theme
+     */
+    public void useDarkTheme(final boolean _darkTheme) {
+        darkTheme = _darkTheme;
+    }
     
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
@@ -58,9 +72,17 @@ public class ScoutAdapter extends ArrayAdapter<Scout> {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (scout != null && scout.checkOut == null) {
-            v = vi.inflate(R.layout.checked_in_entry, null);
+            if (darkTheme) {
+                v = vi.inflate(R.layout.checked_in_entry_dark, null);
+            } else {
+                v = vi.inflate(R.layout.checked_in_entry, null);
+            }
         } else {
-            v = vi.inflate(R.layout.checked_out_entry, null);
+            if (darkTheme) {
+                v = vi.inflate(R.layout.checked_out_entry_dark, null);
+            } else {
+                v = vi.inflate(R.layout.checked_out_entry, null);
+            }
         }
 
         if (scout != null) {

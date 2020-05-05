@@ -5,9 +5,11 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkThemeBackground"
     tools:layout_editor_absoluteY="81dp">
 
     <EditText
+        style="@style/TextBoxThemeDark"
         android:id="@+id/scoutName"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -25,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:timePickerMode="spinner"
+        style="@style/TimePickerThemeDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"

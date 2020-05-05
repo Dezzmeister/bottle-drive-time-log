@@ -39,6 +39,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
     /**
      * Adapter to display entries
      */
-    private ArrayAdapter<Scout> adapter;
+    private ScoutAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
             }
         });
 
-
         final File dir = getApplicationContext().getFilesDir();
         recordFile = new File(dir, SCOUT_RECORD_NAME);
 
@@ -112,15 +112,33 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
         scoutListView = findViewById(R.id.scoutNameView);
         adapter = new ScoutAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, session.listItems);
         scoutListView.setAdapter(adapter);
+        adapter.useDarkTheme(session.darkThemeEnabled);
+        adapter.notifyDataSetChanged();
 
         registerForContextMenu(scoutListView);
+
+        updateTheme(session.darkThemeEnabled);
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(view -> {
             final Intent intent = new Intent(view.getContext(), CheckInActivity.class);
+            intent.putExtra(getResources().getString(R.string.session_object_key), session);
             ((Activity) view.getContext()).startActivityForResult(intent, ActivityRequests.CHECKIN_NEW_REQUEST);
         });
+    }
+
+    /**
+     * Updates the theme (either dark or light theme).
+     *
+     * @param darkModeEnabled true if using dark theme, false for light theme
+     */
+    private void updateTheme(final boolean darkModeEnabled) {
+        if (darkModeEnabled) {
+            scoutListView.setBackgroundColor(getResources().getColor(R.color.darkThemeBackground));
+        } else {
+            scoutListView.setBackgroundColor(getResources().getColor(R.color.lightThemeBackground));
+        }
     }
 
     /**
@@ -299,8 +317,8 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
      * Scout to the list, or one to set the total money earned. This callback handles both.
      *
      * @param aRequestCode intent request code (what the activity was asked to do)
-     * @param aResultCode
-     * @param aData
+     * @param aResultCode intent result code (return status of child intent)
+     * @param aData data returned by child intent
      */
     @Override
     protected void onActivityResult(final int aRequestCode, final int aResultCode, final Intent aData) {
@@ -324,6 +342,8 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
                 break;
             }
         }
+
+        super.onActivityResult(aRequestCode, aResultCode, aData);
     }
 
     /**
@@ -446,6 +466,13 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
                 }
                 break;
             }
+            case R.id.main_menu_toggle_theme: {
+                session.toggleDarkTheme();
+                updateTheme(session.darkThemeEnabled);
+                adapter.useDarkTheme(session.darkThemeEnabled);
+                adapter.notifyDataSetChanged();
+                break;
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -539,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
     }
 
     /**
-     * Clears all entries.
+     * Clears all Scout list entries.
      */
     private void mainMenuClearEntries() {
         clearScoutList();

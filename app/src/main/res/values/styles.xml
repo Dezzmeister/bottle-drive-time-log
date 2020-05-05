@@ -8,6 +8,33 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TimePickerThemeDark" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/darkThemeText</item>
+        <item name="android:textColor">@color/darkThemeText</item>
+        <item name="android:textColorPrimary">@color/darkThemeText</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextBoxThemeDark" parent="Widget.AppCompat.TextView">
+        <item name="backgroundTint">@color/darkThemeText</item>
+        <item name="android:textCursorDrawable">@drawable/dark_theme_cursor</item>
+        <item name="colorAccent">@color/darkThemeGrayedText</item>
+        <item name="backgroundColor">@color/darkThemeTextBoxBackground</item>
+        <item name="android:textColor">@color/darkThemeText</item>
+        <item name="android:textColorHint">@color/darkThemeHint</item>
+    </style>
+
+    <style name="TextViewThemeDark" parent="TextAppearance.AppCompat">
+        <item name="backgroundColor">@color/darkThemeTextBoxBackground</item>
+        <item name="android:textColor">@color/darkThemeText</item>
+    </style>
+
+    <style name="TextViewThemeDarkGrayed" parent="TextAppearance.AppCompat">
+        <item name="backgroundColor">@color/darkThemeTextBoxBackground</item>
+        <item name="android:textColor">@color/darkThemeGrayedText</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

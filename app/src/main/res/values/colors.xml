@@ -5,11 +5,24 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     -->
-    <color name="colorPrimary">#353535</color>
+    <color name="colorPrimary">#404040</color>
     <color name="colorPrimaryDark">#151515</color>
     <color name="colorAccent">#202080</color>
 
     <color name="checkedInEntryColor">#000000</color>
     <color name="checkedOutEntryColor">#acacac</color>
     <!--<color name="checkedInEntryNameColor">#</color>-->
+
+    <color name="darkThemeBackground">#2F2F2F</color>
+    <color name="darkThemeTextBoxBackground">#414141</color>
+    <color name="darkThemeText">#CC6C1D</color>
+    <color name="darkThemeGrayedText">#85451D</color>
+    <color name="darkThemeHint">#909090</color>
+
+    <color name="lightThemeBackground">#EEEEEE</color>
+    <color name="lightThemeText">#000000</color>
+    <color name="lightThemeHint">#909090</color>
+
+    <color name="darkThemeEntryBackground">#343434</color>
+
 </resources>
