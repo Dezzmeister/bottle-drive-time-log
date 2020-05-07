@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#CC6C1D</color>
+    <color name="colorPrimaryDark">#404040</color>
+    <color name="colorAccent">#CC6C1D</color>
+    <color name="checkedInTextColor">#CC6C1D</color>
+    <color name="checkedOutTextColor">#85451D</color>
+    <color name="entryBackgroundColor">#303030</color>
+    <color name="selectedEntryBackgroundColor">#373737</color>
+    <color name="entryListDividerColor">#000000</color>
+    <color name="mainBackground">#272727</color>
+    <color name="secondaryBackground">#373737</color>
+    <color name="mainTextColor">#EEEEEE</color>
+    <color name="actionBarTextColor">#000000</color>
+</resources>

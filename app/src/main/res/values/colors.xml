@@ -8,9 +8,17 @@
     <color name="colorPrimary">#404040</color>
     <color name="colorPrimaryDark">#151515</color>
     <color name="colorAccent">#202080</color>
+    <color name="colorOnPrimary">#00AA00</color>
+    <color name="checkedInTextColor">#000000</color>
+    <color name="checkedOutTextColor">#ACACAC</color>
+    <color name="entryListDividerColor">#000000</color>
+    <color name="entryBackgroundColor">#E0E0E0</color>
+    <color name="selectedEntryBackgroundColor">#CCCCCC</color>
+    <color name="mainBackground">#EEEEEE</color>
+    <color name="secondaryBackground">#BBBBBB</color>
+    <color name="mainTextColor">#111111</color>
+    <color name="actionBarTextColor">#EEEEEE</color>
 
-    <color name="checkedInEntryColor">#000000</color>
-    <color name="checkedOutEntryColor">#acacac</color>
     <!--<color name="checkedInEntryNameColor">#</color>-->
 
     <color name="darkThemeBackground">#2F2F2F</color>

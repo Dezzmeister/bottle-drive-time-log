@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundColor">@color/mainBackground</item>
+        <item name="background">@color/mainBackground</item>
+        <item name="android:colorBackground">@color/mainBackground</item>
+        <item name="actionBarTheme">@style/ActionBarStyle</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="backgroundColor">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/actionBarTextColor</item>
+        <item name="titleTextStyle">@style/ActionBarTitle</item>
+    </style>
+
+    <style name="ActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/actionBarTextColor</item>
+    </style>
+
+    <style name="TimePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:buttonBarButtonStyle">@style/DialogButtonStyle</item>
+        <item name="android:windowBackground">@color/secondaryBackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/mainTextColor</item>
+    </style>
+
+    <style name="CheckedInEntryTheme" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/checkedInTextColor</item>
+    </style>
+
+
+</resources>

@@ -11,8 +11,11 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.troop6quincy.bottledrivetimelog.R;
 import com.troop6quincy.bottledrivetimelog.Scout;
+import com.troop6quincy.bottledrivetimelog.SessionObject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Activity to set the total money earned.
@@ -36,12 +39,25 @@ public class SetTotalMoneyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        final Intent intent = getIntent();
+        final SessionObject session = (SessionObject) intent.getSerializableExtra(getResources().getString(R.string.session_object_key));
+
+        if (session.darkThemeEnabled) {
+            getDelegate().setLocalNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+        } else {
+            getDelegate().setLocalNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+        }
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_set_total_money);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         editText = findViewById(R.id.totalMoney);
 
-        final Intent intent = getIntent();
-        final long sessionCurrency = intent.getLongExtra(SESSION_CURRENCY_KEY, -1);
+        final long sessionCurrency = session.totalMoney;
 
         if (sessionCurrency >= 0) {
             editText.setValue(sessionCurrency);

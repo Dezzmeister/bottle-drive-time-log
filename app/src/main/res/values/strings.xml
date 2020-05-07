@@ -19,5 +19,5 @@
     <string name="main_menu_export_text">Export CSV</string>
     <string name="main_menu_set_money_earned">Set Total Money Earned</string>
     <string name="main_menu_clear_entries">Clear Entries</string>
-    <string name="main_menu_toggle_theme">Toggle Theme</string>
+    <string name="main_menu_toggle_theme">Use Dark Theme</string>
 </resources>

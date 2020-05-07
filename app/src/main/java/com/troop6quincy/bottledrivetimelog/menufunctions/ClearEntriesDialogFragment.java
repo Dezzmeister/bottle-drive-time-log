@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.troop6quincy.bottledrivetimelog.R;
 import com.troop6quincy.bottledrivetimelog.deletescout.DialogListener;
 
@@ -20,8 +21,9 @@ public class ClearEntriesDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.dialog_delete_all_scouts)
+        final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+        builder.setTitle(R.string.dialog_delete_all_scouts)
+                .setMessage("This action cannot be undone.")
                 .setPositiveButton(R.string.delete_all_entries, (dialog, id) -> listener.onDialogPositiveClick(this))
                 .setNegativeButton(R.string.cancel, (dialog, id) -> listener.onDialogNegativeClick(this));
         return builder.create();

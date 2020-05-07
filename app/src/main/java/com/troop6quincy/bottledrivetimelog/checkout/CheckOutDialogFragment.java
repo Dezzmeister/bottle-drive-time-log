@@ -35,7 +35,7 @@ public class CheckOutDialogFragment extends DialogFragment implements TimePicker
         final int hour = calendar.get(Calendar.HOUR_OF_DAY);
         final int minute = calendar.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(getActivity(), R.style.TimePickerTheme, this, hour, minute, DateFormat.is24HourFormat(getActivity()));
     }
 
     @Override

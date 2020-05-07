@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="primaryBackgroundColor" format="color"></attr>
+    <attr name="secondaryBackgroundColor" format="color"></attr>
+    <attr name="primaryTextColor" format="color"></attr>
+    <attr name="checkedInTextColor" format="color"></attr>
+    <attr name="checkedOutTextColor" format="color"></attr>
+    <attr name="inputTextColor" format="color"></attr>
+    <attr name="textBoxBackgroundColor" format="color"></attr>
+    <attr name="hintTextColor" format="color"></attr>
+</resources>

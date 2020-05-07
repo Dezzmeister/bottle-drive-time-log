@@ -5,6 +5,14 @@ repositories {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\android-games\\keys\\t6timesheet.jks')
+            storePassword 'NardDog3359$$'
+            keyAlias = 'key0'
+            keyPassword 'NardDog3359$$'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         multiDexEnabled true
@@ -14,6 +22,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
     buildTypes {
         release {

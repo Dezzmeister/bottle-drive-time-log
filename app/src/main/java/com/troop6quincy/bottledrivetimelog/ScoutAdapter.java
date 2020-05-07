@@ -72,17 +72,9 @@ public class ScoutAdapter extends ArrayAdapter<Scout> {
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (scout != null && scout.checkOut == null) {
-            if (darkTheme) {
-                v = vi.inflate(R.layout.checked_in_entry_dark, null);
-            } else {
-                v = vi.inflate(R.layout.checked_in_entry, null);
-            }
+            v = vi.inflate(R.layout.checked_in_entry, null);
         } else {
-            if (darkTheme) {
-                v = vi.inflate(R.layout.checked_out_entry_dark, null);
-            } else {
-                v = vi.inflate(R.layout.checked_out_entry, null);
-            }
+            v = vi.inflate(R.layout.checked_out_entry, null);
         }
 
         if (scout != null) {

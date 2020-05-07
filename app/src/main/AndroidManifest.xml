@@ -30,7 +30,8 @@
             android:name=".CheckInActivity"
             android:label="Check In"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|adjustResize">
 
         </activity>
 
@@ -38,7 +39,8 @@
             android:name=".menufunctions.SetTotalMoneyActivity"
             android:label="Set Total Money Earned"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan|adjustResize">
 
         </activity>
 

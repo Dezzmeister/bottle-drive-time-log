@@ -6,8 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -30,6 +36,7 @@ import com.troop6quincy.bottledrivetimelog.deletescout.DialogListener;
 import com.troop6quincy.bottledrivetimelog.export.CSVExporter;
 import com.troop6quincy.bottledrivetimelog.export.ExcelExporter;
 import com.troop6quincy.bottledrivetimelog.menufunctions.ClearEntriesDialogFragment;
+import com.troop6quincy.bottledrivetimelog.menufunctions.MenuStructure;
 import com.troop6quincy.bottledrivetimelog.menufunctions.SetTotalMoneyActivity;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -65,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
      */
     private File recordFile;
 
+    private Toolbar toolbar;
+
     /**
      * Main entry list
      */
@@ -88,8 +97,23 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
         System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
 
+        final File dir = getApplicationContext().getFilesDir();
+        recordFile = new File(dir, SCOUT_RECORD_NAME);
+
+        if (recordFile.exists()) {
+            session = SessionObject.loadPreviousSession(this, recordFile);
+        } else {
+            session = new SessionObject(new LinkedList<>(), -1);
+        }
+
+        if (session.darkThemeEnabled) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         cleanExternalStorage();
@@ -100,32 +124,23 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
             }
         });
 
-        final File dir = getApplicationContext().getFilesDir();
-        recordFile = new File(dir, SCOUT_RECORD_NAME);
-
-        if (recordFile.exists()) {
-            session = SessionObject.loadPreviousSession(this, recordFile);
-        } else {
-            session = new SessionObject(new LinkedList<>(), -1);
-        }
-
         scoutListView = findViewById(R.id.scoutNameView);
-        adapter = new ScoutAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, session.listItems);
+        adapter = new ScoutAdapter(MainActivity.this, android.R.layout.simple_list_item_1, session.listItems);
         scoutListView.setAdapter(adapter);
         adapter.useDarkTheme(session.darkThemeEnabled);
         adapter.notifyDataSetChanged();
 
         registerForContextMenu(scoutListView);
 
-        updateTheme(session.darkThemeEnabled);
-
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(view -> {
-            final Intent intent = new Intent(view.getContext(), CheckInActivity.class);
+            final Intent intent = new Intent(MainActivity.this, CheckInActivity.class);
             intent.putExtra(getResources().getString(R.string.session_object_key), session);
-            ((Activity) view.getContext()).startActivityForResult(intent, ActivityRequests.CHECKIN_NEW_REQUEST);
+            MainActivity.this.startActivityForResult(intent, ActivityRequests.CHECKIN_NEW_REQUEST);
         });
+
+        invalidateOptionsMenu();
     }
 
     /**
@@ -135,9 +150,9 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
      */
     private void updateTheme(final boolean darkModeEnabled) {
         if (darkModeEnabled) {
-            scoutListView.setBackgroundColor(getResources().getColor(R.color.darkThemeBackground));
+
         } else {
-            scoutListView.setBackgroundColor(getResources().getColor(R.color.lightThemeBackground));
+
         }
     }
 
@@ -149,6 +164,11 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
      */
     private void cleanExternalStorage() {
         final File dir = getExternalFilesDir(null);
+
+        if (dir == null) {
+            return;
+        }
+        
         final File[] files = dir.listFiles();
 
         if (files != null) {
@@ -232,9 +252,16 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
     @Override
     public void onCreateContextMenu(final ContextMenu menu, final View view, final ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
+        int position = ((AdapterView.AdapterContextMenuInfo) menuInfo).position;
+        final Scout scout = (Scout) scoutListView.getItemAtPosition(position);
 
         final MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_scoutlist, menu);
+
+        if (scout.checkOut == null) {
+            inflater.inflate(R.menu.menu_scoutlist, menu);
+        } else {
+            inflater.inflate(R.menu.menu_scoutlist_checkedout, menu);
+        }
     }
 
     /**
@@ -426,6 +453,31 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
         return true;
     }
 
+    private void styleMenuButtons() {
+        for (final int menuItemID : MenuStructure.MENU_IDS) {
+            final View view = findViewById(menuItemID);
+
+            if (view instanceof TextView) {
+                final TextView tv = (TextView) view;
+
+                tv.setTextColor(getResources().getColor(R.color.mainTextColor));
+            } else {
+                Menu menu = toolbar.getMenu();
+                MenuItem item = menu.findItem(menuItemID);
+                SpannableString s = new SpannableString(item.getTitle());
+                s.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.mainTextColor)), 0, s.length(), 0);
+                item.setTitle(s);
+            }
+        }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean result = super.onPrepareOptionsMenu(menu);
+        styleMenuButtons();
+        return result;
+    }
+
     /**
      * Runs when one of the menu options in the main menu is selected.
      *
@@ -468,9 +520,20 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
             }
             case R.id.main_menu_toggle_theme: {
                 session.toggleDarkTheme();
-                updateTheme(session.darkThemeEnabled);
-                adapter.useDarkTheme(session.darkThemeEnabled);
+                session.save(this, recordFile);
+                /*
+                Intent intent = getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                startActivity(intent);
+                */
+                if (session.darkThemeEnabled) {
+                    getDelegate().setLocalNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+                } else {
+                    getDelegate().setLocalNightMode((AppCompatDelegate.MODE_NIGHT_NO));
+                }
                 adapter.notifyDataSetChanged();
+
                 break;
             }
         }
@@ -483,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
      */
     private void mainMenuSetTotalMoney() {
         final Intent intent = new Intent(this, SetTotalMoneyActivity.class);
-        intent.putExtra(SetTotalMoneyActivity.SESSION_CURRENCY_KEY, session.totalMoney);
+        intent.putExtra(getResources().getString(R.string.session_object_key), session);
         startActivityForResult(intent, ActivityRequests.SET_TOTAL_MONEY_REQUEST);
     }
 

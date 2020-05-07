@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/main_entries_listview_selector"
     >
 
     <LinearLayout
@@ -15,13 +16,13 @@
         android:layout_marginBottom="5dp">
 
         <TextView
+            style="@style/CheckedInEntryTheme"
             android:id="@+id/scoutEntryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
             android:text="Default"
-            android:textColor="@color/checkedInEntryColor"
             android:textSize="15sp"
             android:textStyle="bold"/>
 
@@ -32,7 +33,7 @@
             android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
             android:text="Default"
-            android:textColor="@color/checkedInEntryColor"
+            android:textColor="@color/checkedInTextColor"
             android:textSize="15sp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
