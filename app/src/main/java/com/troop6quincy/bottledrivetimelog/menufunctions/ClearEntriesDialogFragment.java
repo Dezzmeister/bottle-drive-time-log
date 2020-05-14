@@ -19,6 +19,17 @@ public class ClearEntriesDialogFragment extends DialogFragment {
         listener = (DialogListener) context;
     }
 
+    /**
+     * Sets the listener object to receive the result of this dialog. In later Android APIs this would
+     * be set in {@link #onAttach(Context)}, but in earlier APIs the listener object is null
+     * (tested in Android 19).
+     *
+     * @param _listener listener object
+     */
+    public void setListener(final DialogListener _listener) {
+        listener = _listener;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());

@@ -29,6 +29,17 @@ public class CheckOutDialogFragment extends DialogFragment implements TimePicker
         timeListener = (CheckOutDialogListener) context;
     }
 
+    /**
+     * Sets the listener object to receive the result of this dialog. In later Android APIs this would
+     * be set in {@link #onAttach(Context)}, but in earlier APIs the listener object is null
+     * (tested in Android 19).
+     *
+     * @param _timeListener listener object
+     */
+    public void setListener(final CheckOutDialogListener _timeListener) {
+        timeListener = _timeListener;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Calendar calendar = Calendar.getInstance(Locale.getDefault());

@@ -1,13 +1,16 @@
 package com.troop6quincy.bottledrivetimelog;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
@@ -62,6 +65,11 @@ import java.util.Locale;
  */
 public class MainActivity extends AppCompatActivity implements DialogListener, CheckOutDialogListener {
 
+    private static final int REQUEST_READ_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int REQUEST_READ_EXTERNAL_STORAGE = 2;
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 3;
+    private boolean hasStoragePerms = false;
+
     /**
      * Local path to the serialized previous session (local to internal app storage)
      */
@@ -72,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
      */
     private File recordFile;
 
+    /**
+     * Main activity toolbar
+     */
     private Toolbar toolbar;
 
     /**
@@ -116,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        requestPermissions();
         cleanExternalStorage();
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -143,16 +155,40 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
         invalidateOptionsMenu();
     }
 
-    /**
-     * Updates the theme (either dark or light theme).
-     *
-     * @param darkModeEnabled true if using dark theme, false for light theme
-     */
-    private void updateTheme(final boolean darkModeEnabled) {
-        if (darkModeEnabled) {
+    private void requestPermissions() {
+        final boolean hasWritePermission = (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED);
+        final boolean hasReadPermission = (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED);
 
+        //TODO: Check if android sdk version is high enough
+        if (hasWritePermission && hasReadPermission) {
+            hasStoragePerms = true;
+            return;
+        }
+
+        final boolean shouldShowWriteRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        final boolean shouldShowReadRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (!(hasWritePermission || hasReadPermission)) {
+
+            if (shouldShowWriteRationale && shouldShowReadRationale) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_WRITE_EXTERNAL_STORAGE);
+            }
+        } else if (hasWritePermission && !hasReadPermission) {
+            if (shouldShowReadRationale) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
+            }
+        } else if (hasReadPermission && !hasWritePermission) {
+            if (shouldShowWriteRationale) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
+            }
         } else {
-
+            hasStoragePerms = true;
         }
     }
 
@@ -281,14 +317,20 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
         switch (item.getItemId()) {
             case R.id.checkout_scout:
                 if (selectedScout.checkOut == null) {
-                    showScoutDialog(new CheckOutDialogFragment(), selectedScout, "CheckOutDialogFragment", 0);
+                    final CheckOutDialogFragment dialog = new CheckOutDialogFragment();
+                    dialog.setListener(this);
+
+                    showScoutDialog(dialog, selectedScout, "CheckOutDialogFragment", 0);
                 } else {
                     final Toast toast = Toast.makeText(this, selectedScout.name + " has already checked out!", Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 return true;
             case R.id.delete_scout:
-                showScoutDialog(new DeleteScoutDialogFragment(), selectedScout, "DeleteScoutDialogFragment", DialogListener.CONFIRM_DELETE_SCOUT);
+                final DeleteScoutDialogFragment dialog = new DeleteScoutDialogFragment();
+                dialog.setListener(this);
+
+                showScoutDialog(dialog, selectedScout, "DeleteScoutDialogFragment", DialogListener.CONFIRM_DELETE_SCOUT);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -474,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean result = super.onPrepareOptionsMenu(menu);
-        styleMenuButtons();
+        //styleMenuButtons();
         return result;
     }
 
@@ -511,7 +553,10 @@ public class MainActivity extends AppCompatActivity implements DialogListener, C
             }
             case R.id.main_menu_clear_entries: {
                 if (!session.listItems.isEmpty()) {
-                    showScoutDialog(new ClearEntriesDialogFragment(), null, "ClearEntriesDialogFragment", DialogListener.CONFIRM_CLEAR_ENTRIES);
+                    final ClearEntriesDialogFragment dialog = new ClearEntriesDialogFragment();
+                    dialog.setListener(this);
+
+                    showScoutDialog(dialog, null, "ClearEntriesDialogFragment", DialogListener.CONFIRM_CLEAR_ENTRIES);
                 } else {
                     final Toast toast = Toast.makeText(this, "There are no entries!", Toast.LENGTH_SHORT);
                     toast.show();
